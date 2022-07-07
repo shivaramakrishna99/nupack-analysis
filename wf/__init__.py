@@ -26,7 +26,7 @@ class Ensemble(Enum):
 @small_task
 def nupack_analysis(
     strands_file: LatchFile, 
-    concentrations: LatchFile,
+    concentrations_file: LatchFile,
     material: str = Material.rna,
     ensemble: str = Ensemble.stacking,
     temperature: float = 37.0,
@@ -41,6 +41,10 @@ def nupack_analysis(
         strands = f.read().splitlines()
     f.close()
 
+    with open(concentrations_file, "r") as f:
+        concentrations = f.read().splitlines()
+    f.close()
+
     strand_names = []
     strand_sequences = []
 
@@ -48,10 +52,28 @@ def nupack_analysis(
         if l.startswith('>'):
             l = l.replace('>','').strip()
             strand_names.append(l)
+        else:
+            nt_match = re.match('^[ATGCUatgcu]',l)
+            if nt_match != None:
+                l = l.strip().upper()
+                strand_sequences.append(l)
+    
+    strand_objs = []
+    strands_dict = dict(zip(strand_names, strand_sequences))
+
+    for name, sequence in strands_dict.items():
+        strand_obj = Strand(sequence, name=name)
+        strand_objs.append(strand_obj)
+
+    # tube_strands = dict(zip(strand_objs,concentrations))
     
     outFile = f"/{out}.txt"
 
-    content = f"NUPACK ANALYSIS RESULTS\n{strand_names}"
+    content = f"""NUPACK ANALYSIS RESULTS
+    {strand_names}
+    {strand_sequences}
+    {strand_objs}
+    """
     with open(outFile, "w") as f:
         f.write(content)
     
@@ -75,15 +97,15 @@ metadata.parameters["strands_file"] = LatchParameter(
     hidden=False,
     section_title="Input",
 )
-metadata.parameters["concentrations"] = LatchParameter(
-    display_name="Concentrations File",
-    description="Upload list of concentrations",
+metadata.parameters["concentrations_file"] = LatchParameter(
+    display_name="concentrations_file File",
+    description="Upload list of concentrations_file",
 )
 
 @workflow(metadata)
 def analysisNUPACK(
     strands_file: LatchFile, 
-    concentrations: LatchFile,
+    concentrations_file: LatchFile,
     material: Material = Material.rna,
     ensemble: Ensemble = Ensemble.stacking,
     temperature: float = 37.0,
@@ -108,7 +130,7 @@ def analysisNUPACK(
 
     4. Select the utility functions that require sequence and structure information.
 
-    5. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations. 
+    5. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations_file. 
 
     6. Run the workflow!
 
@@ -170,7 +192,7 @@ def analysisNUPACK(
                 _tmp:
                     hidden: true
                 appearance:
-                    comment: "The sum of the concentrations of (monovalent) sodium, potassium, and ammonium ions, is specified in units of molar. Default: 1.0, Range: [0.05,1.1]"
+                    comment: "The sum of the concentrations_file of (monovalent) sodium, potassium, and ammonium ions, is specified in units of molar. Default: 1.0, Range: [0.05,1.1]"
         magnesium:
             __metadata__:
                 display_name: "Mg++ (in nM). Default is 0 nM"
@@ -189,7 +211,7 @@ def analysisNUPACK(
     
     return nupack_analysis(
     strands_file=strands_file,
-    concentrations=concentrations,
+    concentrations_file=concentrations_file,
     material=material,
     ensemble=ensemble,
     temperature=temperature,
