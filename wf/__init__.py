@@ -24,7 +24,7 @@ class Ensemble(Enum):
     nostacking = "nostacking"
 
 @small_task
-def nupack_analysis(
+def tubeAnalysis(
     strands_file: LatchFile, 
     concentrations_file: LatchFile,
     max_size: int = 3,
@@ -117,7 +117,7 @@ metadata.parameters["tube_name"] = LatchParameter(
 )
 
 @workflow(metadata)
-def analysisNUPACK(
+def tubeAnalysisNUPACK(
     strands_file: LatchFile, 
     concentrations_file: LatchFile,
     max_size: int = 3,
@@ -223,7 +223,7 @@ def analysisNUPACK(
                     comment: "Name your file containing results from chosen NUPACK Utility Programs"            
     """
     
-    return nupack_analysis(
+    return tubeAnalysis(
     strands_file=strands_file,
     concentrations_file=concentrations_file,
     max_size=max_size,
