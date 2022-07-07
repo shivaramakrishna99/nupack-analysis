@@ -27,6 +27,8 @@ class Ensemble(Enum):
 def nupack_analysis(
     strands_file: LatchFile, 
     concentrations_file: LatchFile,
+    max_size: int = 3,
+    tube_name: str = "Tube 1",
     material: str = Material.rna,
     ensemble: str = Ensemble.stacking,
     temperature: float = 37.0,
@@ -43,6 +45,7 @@ def nupack_analysis(
 
     with open(concentrations_file, "r") as f:
         concentrations = f.read().splitlines()
+        concentrations = [float(i) for i in concentrations]
     f.close()
 
     strand_names = []
@@ -65,14 +68,16 @@ def nupack_analysis(
         strand_obj = Strand(sequence, name=name)
         strand_objs.append(strand_obj)
 
-    # tube_strands = dict(zip(strand_objs,concentrations))
+    tube_strands = dict(zip(strand_objs,concentrations))
+
+    tube_obj = Tube(strands=tube_strands, complexes=SetSpec(max_size=max_size), name=tube_name)
+
+    tube_results = tube_analysis(tubes=[tube_obj], model=nt_model)
     
     outFile = f"/{out}.txt"
 
     content = f"""NUPACK ANALYSIS RESULTS
-    {strand_names}
-    {strand_sequences}
-    {strand_objs}
+    {tube_results}
     """
     with open(outFile, "w") as f:
         f.write(content)
@@ -98,14 +103,25 @@ metadata.parameters["strands_file"] = LatchParameter(
     section_title="Input",
 )
 metadata.parameters["concentrations_file"] = LatchParameter(
-    display_name="concentrations_file File",
-    description="Upload list of concentrations_file",
+    display_name="Concentrations File",
+    description="Upload list of concentrations in order of sequence (as float values)",
+)
+metadata.parameters["max_size"] = LatchParameter(
+    display_name="Maximum Complex Size",
+    description="Set the maximum possible number of interacting strands to form a single complex",
+    section_title="Tube Specifications",
+)
+metadata.parameters["tube_name"] = LatchParameter(
+    display_name="Name of Tube",
+    description="Set a name for the tube",
 )
 
 @workflow(metadata)
 def analysisNUPACK(
     strands_file: LatchFile, 
     concentrations_file: LatchFile,
+    max_size: int = 3,
+    tube_name: str = "Tube 1",
     material: Material = Material.rna,
     ensemble: Ensemble = Ensemble.stacking,
     temperature: float = 37.0,
@@ -114,9 +130,9 @@ def analysisNUPACK(
     out: str = "tube-analysis",
 ) -> LatchFile:
 
-    """NUPACK Utilities for a complex formed between two nucleotide strands
+    """Define and analyse a tube containing multiple nucleic acid strands
 
-    # NUPACK - Utility Algorithms and Calculations
+    # NUPACK - Analysis of Complexes in a Tube
     ---
 
     ## **How to use**
@@ -124,15 +140,13 @@ def analysisNUPACK(
 
     1. Specify the model by choosing the nucleic acid type. This parameter is based on parameter sets obtained from different research papers. Check them out [here](https://docs.nupack.org/model/#material)
     
-    2. Specify the sequences of the first and second strand, followed by the structure of the complex in the dot bracket notation.
+    2. Provide a FASTA file containing the names and sequences of the strands
 
-    3. Select the utility functions that require sequence information only.
+    3. Set a maximum complex size and give your tube analysis job a name.
 
-    4. Select the utility functions that require sequence and structure information.
+    4. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations_file. 
 
-    5. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations_file. 
-
-    6. Run the workflow!
+    5. Run the workflow!
 
     ## **About**
     ---
@@ -212,6 +226,8 @@ def analysisNUPACK(
     return nupack_analysis(
     strands_file=strands_file,
     concentrations_file=concentrations_file,
+    max_size=max_size,
+    tube_name=tube_name,
     material=material,
     ensemble=ensemble,
     temperature=temperature,
