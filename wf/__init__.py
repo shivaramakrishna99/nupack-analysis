@@ -205,7 +205,7 @@ def tubeAnalysisNUPACK(
 
     - R. M. Dirks and N. A. Pierce. A partition function algorithm for nucleic acid secondary structure including pseudoknots.  [J Comput Chem](http://onlinelibrary.wiley.com/doi/10.1002/jcc.20057/abstract) , 24:1664-1677, 2003. ( [pdf](http://www.nupack.org/downloads/serve_public_file/jcc03.pdf?type=pdf) ,  [supp info](http://www.nupack.org/downloads/serve_public_file/jcc03_supp.pdf?type=pdf) )
 
-    **Workflow Repository** - (https://github.com/shivaramakrishna99/nupack-utility-programs)
+    **Workflow Repository** - (https://github.com/shivaramakrishna99/nupack-analysis)
 
     **Acknowledgements** - (https://docs.nupack.org/#acknowledgments)
 
