@@ -91,7 +91,7 @@ def tubeAnalysis(
 
 metadata = LatchMetadata(
     display_name="NUPACK - Tube Analysis",
-    documentation="https://docs.nupack.org",
+    documentation="https://docs.nupack.org/analysis",
     author=LatchAuthor(
         name="NUPACK Team",
         email="support@nupack.org",
@@ -173,15 +173,15 @@ def tubeAnalysisNUPACK(
     ## **How to use**
     ---
 
-    1. Specify the model by choosing the nucleic acid type. This parameter is based on parameter sets obtained from different research papers. Check them out [here](https://docs.nupack.org/model/#material)
+    1. Provide a FASTA file containing the names and sequences of the interacting strands in a tube
+    
+    2. Provide a .txt file containing a list of concentration values (in floating point notation) for each strand.  Limit one entry per line, written in floating point notation (eg: 1e-8) 
 
-    2. Provide a FASTA file containing the names and sequences of the strands
+    2. Set a maximum complex size and give your tube analysis job a name
 
-    3. Set a maximum complex size and give your tube analysis job a name.
+    3. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations
 
-    4. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations_file. 
-
-    5. Run the workflow!
+    4. Run the workflow!
 
     ## **About**
     ---
