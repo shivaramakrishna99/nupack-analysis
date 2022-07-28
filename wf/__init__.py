@@ -177,11 +177,11 @@ def tubeAnalysisNUPACK(
     
     2. Provide a .txt file containing a list of concentration values (in floating point notation) for each strand.  Limit one entry per line, written in floating point notation (eg: 1e-8) 
 
-    2. Set a maximum complex size and give your tube analysis job a name
+    3. Set a maximum complex size and give your tube analysis job a name
 
-    3. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations
+    4. Specify any other changes in the construction of the Model() object using the hidden parameters such as ensemble type and ion concentrations
 
-    4. Run the workflow!
+    5. Run the workflow!
 
     ## **About**
     ---
