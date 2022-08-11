@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/Users/shivaramakrishna/env_nupack/lib/python3.8/site-packages/latch_cli/services/preview.py", line 69, in preview
+    wf = load_naive_entity("wf.__init__", workflow_name)
+  File "/Users/shivaramakrishna/env_nupack/lib/python3.8/site-packages/flytekit/clis/sdk_in_container/run.py", line 408, in load_naive_entity
+    importlib.import_module(module_name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.8/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 961, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 783, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/Users/shivaramakrishna/nupack-analysis/wf/__init__.py", line 7, in <module>
+    import matplotlib.pyplot as plt
+ModuleNotFoundError: No module named 'matplotlib'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/shivaramakrishna/env_nupack/lib/python3.8/site-packages/latch_cli/main.py", line 446, in preview
+    preview(workflow_name)
+  File "/Users/shivaramakrishna/env_nupack/lib/python3.8/site-packages/latch_cli/services/preview.py", line 71, in preview
+    raise ValueError(
+ValueError: Unable to find wf.__init__.tubeAnalysisNUPACK - make sure that the function names match.

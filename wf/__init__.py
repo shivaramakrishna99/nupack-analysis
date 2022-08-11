@@ -1,14 +1,9 @@
-"""
-Carry out all NUPACK's Utilities functions
-"""
-
 from enum import Enum
 from pathlib import Path
 from latch import small_task, workflow
 from natsort import as_ascii
 
 from nupack import *  # Import NUPACK
-import matplotlib.pyplot as plt
 import pandas as pd
 import re
 from latch.types import LatchFile, LatchMetadata, LatchAuthor, LatchParameter, LatchAppearanceType, LatchRule
@@ -93,9 +88,9 @@ metadata = LatchMetadata(
     display_name="NUPACK - Tube Analysis",
     documentation="https://docs.nupack.org/analysis",
     author=LatchAuthor(
-        name="NUPACK Team",
-        email="support@nupack.org",
-        github="https://github.com/beliveau-lab/NUPACK",
+        name="Shivaramakrishna Srinivasan",
+        email="shivaramakrishna.srinivasan@gmail.com",
+        github="https://github.com/shivaramakrishna99",
     ),
     repository="https://github.com/beliveau-lab/NUPACK",
     license="BSD-3-Clause",
